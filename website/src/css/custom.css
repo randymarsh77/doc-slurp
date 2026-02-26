@@ -1,0 +1,25 @@
+/**
+ * Custom CSS overrides for the doc-slurp Docusaurus site.
+ * Minimal – the default Docusaurus theme is kept mostly intact.
+ */
+
+:root {
+  --ifm-color-primary: #1a73e8;
+  --ifm-color-primary-dark: #1565c0;
+  --ifm-color-primary-darker: #1558a8;
+  --ifm-color-primary-darkest: #0d47a1;
+  --ifm-color-primary-light: #2196f3;
+  --ifm-color-primary-lighter: #42a5f5;
+  --ifm-color-primary-lightest: #64b5f6;
+  --ifm-code-font-size: 90%;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #64b5f6;
+  --ifm-color-primary-dark: #42a5f5;
+  --ifm-color-primary-darker: #2196f3;
+  --ifm-color-primary-darkest: #1e88e5;
+  --ifm-color-primary-light: #90caf9;
+  --ifm-color-primary-lighter: #bbdefb;
+  --ifm-color-primary-lightest: #e3f2fd;
+}

@@ -1,0 +1,16 @@
+node_modules/
+dist/
+dist-scripts/
+.docusaurus/
+website/build/
+website/node_modules/
+website/docs/
+website/.docusaurus/
+website/docusaurus.config.ts
+website/sidebars.ts
+scrape-state.json
+.env
+.env.local
+*.tsbuildinfo
+# Compiled JS that may be emitted next to TS sources
+src/**/*.js

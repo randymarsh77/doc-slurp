@@ -1,0 +1,119 @@
+:root {
+  font-family: system-ui, -apple-system, sans-serif;
+  color-scheme: light dark;
+  color: #213547;
+  background-color: #ffffff;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #ffffffde;
+    background-color: #242424;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+input[type='text'],
+input[type='password'] {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #1a73e8;
+  color: #fff;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.progress-bar-outer {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background: #1a73e8;
+  transition: width 0.3s ease;
+}
+
+.status-message {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.repo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.repo-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  background: #e8f0fe;
+  color: #1a73e8;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.success {
+  color: #2e7d32;
+}
