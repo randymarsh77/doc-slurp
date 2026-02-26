@@ -1,0 +1,86 @@
+name: Scrape & Deploy Docs
+
+on:
+  schedule:
+    # Run every day at 02:00 UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      org:
+        description: 'GitHub organisation to scrape (overrides GITHUB_ORG secret)'
+        required: false
+      repo_filter:
+        description: 'Optional regex to filter repo names'
+        required: false
+      clear_cache:
+        description: 'Set to "true" to ignore the incremental cache and re-fetch all files'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write  # needed to push to gh-pages
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  scrape-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ── Restore incremental scrape cache ──────────────────────────────────
+      - name: Restore scrape state cache
+        if: ${{ github.event.inputs.clear_cache != 'true' }}
+        uses: actions/cache@v4
+        with:
+          path: scrape-state.json
+          key: scrape-state
+
+      # ── Run incremental scrape ────────────────────────────────────────────
+      - name: Scrape markdown files
+        env:
+          GITHUB_ORG: ${{ github.event.inputs.org || vars.GITHUB_ORG || secrets.GITHUB_ORG }}
+          GITHUB_TOKEN: ${{ secrets.SCRAPE_GITHUB_TOKEN }}
+          REPO_FILTER: ${{ github.event.inputs.repo_filter }}
+        run: npm run scrape
+
+      # ── Save updated incremental cache ────────────────────────────────────
+      - name: Save scrape state cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: scrape-state.json
+          key: scrape-state
+
+      # ── Build Docusaurus site ─────────────────────────────────────────────
+      - name: Build documentation site
+        env:
+          SITE_TITLE: ${{ vars.SITE_TITLE || 'doc-slurp' }}
+          SITE_URL: ${{ vars.SITE_URL || format('https://{0}.github.io', github.repository_owner) }}
+          BASE_URL: ${{ vars.BASE_URL || format('/{0}/', github.event.repository.name) }}
+        run: npm run docs:build
+
+      # ── Deploy to GitHub Pages ────────────────────────────────────────────
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,39 @@
+{
+  "name": "doc-slurp",
+  "version": "1.0.0",
+  "description": "Ingest all markdown files from a GitHub organisation, group them per repo, build a Docusaurus site with static search and deploy to GitHub Pages",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.app.json --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src scripts --ext .ts,.tsx",
+    "type-check": "tsc --noEmit",
+    "scrape": "tsx scripts/scrape.ts",
+    "generate-config": "tsx scripts/generate-config.ts",
+    "docs:build": "npm run generate-config && docusaurus build --config website/docusaurus.config.ts",
+    "docs:serve": "docusaurus serve --config website/docusaurus.config.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^3.9.2",
+    "@docusaurus/preset-classic": "^3.9.2",
+    "@easyops-cn/docusaurus-search-local": "^0.55.0",
+    "@octokit/plugin-throttling": "^11.0.3",
+    "@octokit/rest": "^22.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.6",
+    "@vitejs/plugin-react": "^4.4.1",
+    "eslint": "^9.26.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.3"
+  }
+}
