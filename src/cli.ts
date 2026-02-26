@@ -46,7 +46,7 @@ function parseArgs(argv: string[]): { command: string; flags: Record<string, str
   const flags: Record<string, string> = {};
 
   for (let i = 0; i < args.length; i++) {
-    const arg = args[i]!;
+    const arg = args[i] as string;
     if (arg === '--help' || arg === '-h') {
       flags['help'] = 'true';
     } else if (arg.startsWith('--')) {
@@ -279,14 +279,13 @@ async function main(): Promise<void> {
   const shouldScrape = command === 'scrape' || command === '';
   const shouldBuild = command === 'build' || command === '';
 
-  if (shouldScrape && !org) {
-    console.error('Error: --org or GITHUB_ORG environment variable is required for scraping.');
-    console.error('Run doc-slurp --help for usage information.');
-    process.exit(1);
-  }
-
   if (shouldScrape) {
-    await runScrape({ org: org!, token, repoFilter, docsDir, stateFile });
+    if (!org) {
+      console.error('Error: --org or GITHUB_ORG environment variable is required for scraping.');
+      console.error('Run doc-slurp --help for usage information.');
+      process.exit(1);
+    }
+    await runScrape({ org, token, repoFilter, docsDir, stateFile });
   }
 
   if (shouldBuild) {
