@@ -2,11 +2,27 @@
   "name": "doc-slurp",
   "version": "1.0.0",
   "description": "Ingest all markdown files from a GitHub organisation, group them per repo, build a Docusaurus site with static search and deploy to GitHub Pages",
-  "private": true,
   "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "docusaurus",
+    "github",
+    "markdown",
+    "documentation",
+    "scraper",
+    "static-site"
+  ],
+  "bin": {
+    "doc-slurp": "./dist-scripts/src/cli.js"
+  },
+  "files": [
+    "dist-scripts",
+    "website/src"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.app.json --noEmit && vite build",
+    "build:cli": "tsc",
     "preview": "vite preview",
     "lint": "eslint src scripts --ext .ts,.tsx",
     "type-check": "tsc --noEmit",
@@ -14,7 +30,8 @@
     "generate-config": "tsx scripts/generate-config.ts",
     "docs:build": "npm run generate-config && docusaurus build --config website/docusaurus.config.ts",
     "docs:serve": "docusaurus serve --config website/docusaurus.config.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "tsc"
   },
   "dependencies": {
     "@docusaurus/core": "^3.9.2",
